@@ -3,130 +3,328 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Benim Hobi Sitem</title>
+<title>ismo.flort.com.tr</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-html{scroll-behavior:smooth}
-body{background:#fff7ed;color:#1f2937}
-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:16px 5%;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);box-shadow:0 4px 30px rgba(0,0,0,.07)}
-.logo{font-size:23px;font-weight:900;background:linear-gradient(90deg,#ec4899,#f59e0b,#06b6d4);-webkit-background-clip:text;background-clip:text;color:transparent}
-.links{display:flex;gap:6px;flex-wrap:wrap}
-.links a{text-decoration:none;color:#374151;font-weight:700;padding:9px 13px;border-radius:999px;font-size:14px}
-.links a:hover{background:#fce7f3;color:#db2777}
-.hero{min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 20px 70px;background:linear-gradient(135deg,#fdf2f8,#fef3c7 35%,#ecfeff 70%,#ede9fe)}
-.hero-inner{max-width:850px}
-.badge{display:inline-block;background:#fff;padding:8px 18px;border-radius:999px;font-weight:800;font-size:14px;box-shadow:0 8px 25px rgba(0,0,0,.1);margin-bottom:22px}
-h1{font-size:clamp(42px,8vw,76px);line-height:.98;letter-spacing:-2px;font-weight:950}
-h1 span{background:linear-gradient(90deg,#ec4899,#f97316,#eab308,#06b6d4,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{font-size:clamp(17px,2.5vw,21px);color:#4b5563;margin:24px auto;max-width:620px;line-height:1.6}
-.btn{text-decoration:none;padding:15px 26px;border-radius:999px;font-weight:900;font-size:16px;display:inline-block;margin:4px;background:linear-gradient(90deg,#ec4899,#f97316);color:#fff;box-shadow:0 12px 28px rgba(236,72,153,.35)}
-.btn.white{background:#fff;color:#111827;box-shadow:0 12px 28px rgba(0,0,0,.12)}
-section{padding:85px 5%;max-width:1200px;margin:auto}
-.title{font-size:clamp(32px,5vw,46px);font-weight:950;text-align:center}
-.subtitle{text-align:center;color:#6b7280;margin:12px auto 40px;max-width:600px;line-height:1.6}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
-.card{background:#fff;border-radius:26px;padding:30px 24px;box-shadow:0 15px 40px rgba(0,0,0,.07)}
-.emoji{font-size:52px;margin-bottom:14px}.card h3{font-size:22px;margin-bottom:8px}.card p{color:#6b7280;line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
-.item{border-radius:22px;overflow:hidden;background:#111827;aspect-ratio:4/3;box-shadow:0 12px 30px rgba(0,0,0,.14)}
-.item img,.item video{width:100%;height:100%;object-fit:cover;display:block}
-.empty{text-align:center;color:#6b7280;padding:34px;background:#fff;border-radius:20px;line-height:1.7}
-.about{background:linear-gradient(135deg,#111827,#312e81);color:#fff;border-radius:34px;padding:48px 34px;text-align:center}
-.about p{color:#d1d5db;line-height:1.7;max-width:700px;margin:14px auto 0}
-footer{text-align:center;padding:34px;color:#9ca3af;font-size:14px}
-@media(max-width:640px){.links{display:none}}
+body{background:#0f0f14;color:#fff;min-height:100vh}
+button,input{font:inherit}
+.top{position:sticky;top:0;z-index:50;background:rgba(15,15,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid #2a2a35;padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.site{font-size:22px;font-weight:950;color:#fff;text-decoration:none}
+.site span{color:#ff4d8d}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1px solid #343442;background:#1a1a23;color:#fff;padding:10px 18px;border-radius:999px;cursor:pointer;font-weight:800}
+.tab.active{background:#ff4d8d;border-color:#ff4d8d}
+main{max-width:1150px;margin:0 auto;padding:42px 20px 70px}
+.page{display:none}.page.active{display:block}
+h1{font-size:clamp(32px,6vw,58px);letter-spacing:-1.5px;margin-bottom:10px}
+.sub{color:#a1a1aa;margin-bottom:28px}
+.upload{background:#17171f;border:2px dashed #4b4b5e;border-radius:26px;padding:42px 22px;text-align:center;cursor:pointer;transition:.2s}
+.upload:hover,.upload.over{border-color:#ff4d8d;background:#1e1620}
+.upload .icon{font-size:58px}.upload h2{font-size:26px;margin:12px 0 8px}.upload p{color:#a1a1aa}
+.name-row{display:flex;gap:10px;max-width:650px;margin:22px auto 0}
+.name-row input{flex:1;background:#101016;border:1px solid #343442;border-radius:14px;color:#fff;padding:14px 16px;outline:none}
+.name-row input:focus{border-color:#ff4d8d}
+.add-btn{margin-top:22px;background:#ff4d8d;color:#fff;border:0;padding:14px 28px;border-radius:999px;font-weight:950;cursor:pointer;font-size:16px}
+.status{display:none;margin-top:20px;background:#221722;border:1px solid #ff4d8d;color:#ffd7e7;padding:14px 18px;border-radius:14px}
+.error{display:none;margin-top:20px;background:#3a1116;border:1px solid #ef4444;color:#fecaca;padding:14px 18px;border-radius:14px;white-space:pre-line;text-align:left}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.card{background:#17171f;border:1px solid #2a2a35;border-radius:20px;overflow:hidden;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#ff4d8d}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#000}
+.card .name{padding:13px 15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.empty{color:#71717a;text-align:center;padding:55px 20px;border:1px dashed #343442;border-radius:20px}
+.zoom{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.94);display:none;align-items:center;justify-content:center;padding:22px}
+.zoom.open{display:flex}
+.zoom-box{max-width:950px;width:100%;text-align:center}
+.zoom img{max-width:100%;max-height:76vh;object-fit:contain;border-radius:16px}
+.zoom-name{font-size:22px;font-weight:900;margin:18px 0 14px}
+.zoom-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.copy{background:#ff4d8d;color:#fff;border:0;padding:13px 24px;border-radius:999px;font-weight:950;cursor:pointer}
+.close{background:#fff;color:#111;border:0;padding:13px 24px;border-radius:999px;font-weight:950;cursor:pointer}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(120px);background:#fff;color:#111;padding:13px 22px;border-radius:999px;font-weight:900;z-index:200;transition:.3s;max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:640px){.top{justify-content:center}.name-row{flex-direction:column}}
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">✨ Benim Dünyam</div>
-  <div class="links"><a href="#anasayfa">Ana Sayfa</a><a href="#hobiler">Hobilerim</a><a href="#fotolar">📸 Fotoğraflar</a><a href="#videolar">🎬 Videolar</a><a href="#hakkimda">Hakkımda</a></div>
-</nav>
-
-<!-- ============================================================
-     BURAYI DÜZENLE: İsmini ve tanıtım yazını değiştir
-============================================================ -->
-<header class="hero" id="anasayfa">
-  <div class="hero-inner">
-    <div class="badge">🎨 Kişisel • Eğlenceli • Renkli</div>
-    <h1>Merhaba, ben<br><span>ADINI YAZ</span></h1>
-    <p>Buraya hobini yaz... Örneğin: Fotoğraf çekmeyi, gezmeyi ve yeni şeyler keşfetmeyi çok seviyorum. Bu site benim renkli dünyam!</p>
-    <a class="btn" href="#fotolar">📸 Fotoğraflarımı Gör</a>
-    <a class="btn white" href="#videolar">🎬 Videolarımı İzle</a>
-  </div>
+<header class="top">
+  <a class="site" href="#/">ismo<span>.flort.com.tr</span></a>
+  <nav class="tabs">
+    <button class="tab" data-go="home">Ana Page</button>
+    <button class="tab" data-go="gif">ismo gif:</button>
+    <button class="tab" data-go="photo">ismo photo:</button>
+  </nav>
 </header>
 
-<section id="hobiler">
-  <h2 class="title">🎯 Hobilerim</h2>
-  <p class="subtitle">Bu kartları kendi hobilerine göre index.html içinden değiştirebilirsin.</p>
-  <div class="cards">
-    <div class="card"><div class="emoji">📸</div><h3>Fotoğrafçılık</h3><p>Güzel anları yakalamayı ve renkli kareler çekmeyi seviyorum.</p></div>
-    <div class="card"><div class="emoji">🎵</div><h3>Müzik</h3><p>En sevdiğim şarkıları dinlemek bana enerji veriyor.</p></div>
-    <div class="card"><div class="emoji">✈️</div><h3>Seyahat</h3><p>Yeni yerler görmek, yeni insanlar tanımak harika!</p></div>
-    <div class="card"><div class="emoji">🎮</div><h3>Oyun / Spor</h3><p>Boş zamanlarımda en keyif aldığım aktivitelerden biri.</p></div>
+<main>
+  <!-- ANA PAGE -->
+  <section class="page" id="page-home">
+    <h1>Dosya Yükle</h1>
+    <p class="sub">Dosya ekle: tıkla, sürükleyip bırak veya Ctrl+V ile yapıştır.</p>
+
+    <div class="upload" id="dropZone">
+      <div class="icon">📁</div>
+      <h2>Dosyaları buraya bırak</h2>
+      <p>Fotoğraf, GIF veya video seç</p>
+      <div class="name-row" onclick="event.stopPropagation()">
+        <input id="nameInput" type="text" placeholder="İsim yaz (örn: ismo gülüyor)">
+      </div>
+      <button class="add-btn" id="addBtn">Dosya Ekle</button>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*,video/*" multiple hidden>
+    <div class="status" id="status"></div>
+    <div class="error" id="errorBox"></div>
+  </section>
+
+  <!-- GIF PAGE -->
+  <section class="page" id="page-gif">
+    <h1>ismo gif:</h1>
+    <p class="sub">GIF'e tıklayınca büyür.</p>
+    <div class="grid" id="gifGrid"></div>
+    <div class="empty" id="gifEmpty">Henüz GIF yok.</div>
+  </section>
+
+  <!-- PHOTO PAGE -->
+  <section class="page" id="page-photo">
+    <h1>ismo photo:</h1>
+    <p class="sub">Fotoğrafa tıklayınca yaklaşır.</p>
+    <div class="grid" id="photoGrid"></div>
+    <div class="empty" id="photoEmpty">Henüz fotoğraf yok.</div>
+  </section>
+</main>
+
+<div class="zoom" id="zoom">
+  <div class="zoom-box">
+    <img id="zoomImg" alt="">
+    <div class="zoom-name" id="zoomName"></div>
+    <div class="zoom-btns">
+      <button class="copy" id="copyBtn">🔗 URL'sini Kopyala</button>
+      <button class="close" id="closeBtn">Kapat</button>
+    </div>
   </div>
-</section>
+</div>
 
-<section id="fotolar">
-  <h2 class="title">📸 Foto Galeri</h2>
-  <p class="subtitle">Fotoğraflar <b>images</b> klasöründen geliyor. Yeni foto eklemek için README dosyasına bak.</p>
-  <div class="grid" id="photoGrid"></div>
-</section>
+<div class="toast" id="toast"></div>
 
-<section id="videolar">
-  <h2 class="title">🎬 Video Galeri</h2>
-  <p class="subtitle">Videolar <b>videos</b> klasöründen geliyor.</p>
-  <div class="grid" id="videoGrid"></div>
-  <div class="empty" id="videoEmpty">Henüz video yok.<br>GitHub'da <b>videos</b> klasörüne .mp4 yükleyip aşağıdaki listeye adını ekle 🎥</div>
-</section>
-
-<section id="hakkimda">
-  <div class="about">
-    <h2>👋 Hakkımda</h2>
-    <p>Buraya kendini tanıt... Kaç yaşındasın, nerede yaşıyorsun, neler yapmaktan hoşlanıyorsun? Bu alan tamamen senin!</p>
-  </div>
-</section>
-
-<footer>❤️ ile yapıldı • GitHub Pages üzerinde çalışır</footer>
-
+<script src="gif.js"></script>
 <script>
-/* ============================================================
-   FOTOĞRAF EKLEME:
-   1) Fotoğrafı GitHub'da images klasörüne yükle
-   2) Buraya adını aynen yaz. Örn: "images/benim-fotom.jpg",
-   ============================================================ */
-const FOTOGRAFLAR = [
-  "images/foto1.svg",
-  "images/foto2.svg",
-  "images/foto3.svg",
-  "images/foto4.svg",
-  // "images/yeni-fotom.jpg",
-];
+const MAX_VIDEO_SECONDS = 10;
+const fileInput = document.getElementById('fileInput');
+const dropZone = document.getElementById('dropZone');
+const nameInput = document.getElementById('nameInput');
+const statusBox = document.getElementById('status');
+const errorBox = document.getElementById('errorBox');
+const toast = document.getElementById('toast');
+let items = [];
+let objectUrls = new Map();
+let currentItem = null;
 
-/* ============================================================
-   VİDEO EKLEME:
-   1) Videoyu GitHub'da videos klasörüne yükle (önerilen: .mp4)
-   2) Buraya adını aynen yaz. Örn: "videos/benim-videom.mp4",
-   ============================================================ */
-const VIDEOLAR = [
-  // "videos/video1.mp4",
-];
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), 2400);
+}
+function showError(msg){
+  errorBox.style.display = 'block';
+  errorBox.textContent = msg;
+}
+function clearError(){ errorBox.style.display='none'; errorBox.textContent=''; }
+function setStatus(msg){
+  if(!msg){ statusBox.style.display='none'; return; }
+  statusBox.style.display='block'; statusBox.textContent=msg;
+}
 
-const photoGrid = document.getElementById('photoGrid');
-FOTOGRAFLAR.forEach(src => {
-  const d = document.createElement('div'); d.className = 'item';
-  d.innerHTML = `<img src="${src}" alt="Hobi fotoğrafı" loading="lazy">`;
-  photoGrid.appendChild(d);
+/* ---------- IndexedDB ---------- */
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const req = indexedDB.open('ismo-flort-sitesi', 1);
+    req.onupgradeneeded = ()=> req.result.createObjectStore('files',{keyPath:'id'});
+    req.onsuccess = ()=> resolve(req.result);
+    req.onerror = ()=> reject(req.error);
+  });
+}
+async function dbPut(item){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction('files','readwrite');
+    tx.objectStore('files').put(item);
+    tx.oncomplete = resolve; tx.onerror = ()=>reject(tx.error);
+  });
+}
+async function dbGetAll(){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const req = db.transaction('files').objectStore('files').getAll();
+    req.onsuccess = ()=> resolve(req.result || []);
+    req.onerror = ()=> reject(req.error);
+  });
+}
+
+/* ---------- Sayfa geçişleri / URL ---------- */
+function goPage(page){ location.hash = '#/' + (page === 'home' ? '' : page); }
+document.querySelectorAll('[data-go]').forEach(b=> b.addEventListener('click',()=>goPage(b.dataset.go)));
+document.querySelector('.site').addEventListener('click',e=>{e.preventDefault();goPage('home');});
+
+function parseRoute(){
+  const parts = location.hash.replace(/^#\/?/,'').split('/').filter(Boolean);
+  let page = 'home';
+  if(parts[0] === 'gif' || parts[0] === 'photo') page = parts[0];
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.go===page));
+  if((parts[0]==='gif'||parts[0]==='photo') && parts[1]){
+    const item = items.find(i=>i.id===parts[1]);
+    if(item) openZoom(item, false);
+  }
+}
+window.addEventListener('hashchange', parseRoute);
+
+/* ---------- Listeleme ---------- */
+function urlFor(item){
+  if(!objectUrls.has(item.id)) objectUrls.set(item.id, URL.createObjectURL(item.blob));
+  return objectUrls.get(item.id);
+}
+function render(){
+  const gifGrid=document.getElementById('gifGrid'), photoGrid=document.getElementById('photoGrid');
+  gifGrid.innerHTML=''; photoGrid.innerHTML='';
+  items.sort((a,b)=>b.created-a.created).forEach(item=>{
+    const card=document.createElement('div'); card.className='card';
+    card.innerHTML=`<img src="${urlFor(item)}" alt=""><div class="name"></div>`;
+    card.querySelector('.name').textContent=item.name;
+    card.onclick=()=>openZoom(item, true);
+    (item.kind==='gif' ? gifGrid : photoGrid).appendChild(card);
+  });
+  document.getElementById('gifEmpty').style.display = items.some(i=>i.kind==='gif') ? 'none':'block';
+  document.getElementById('photoEmpty').style.display = items.some(i=>i.kind==='photo') ? 'none':'block';
+}
+
+/* ---------- Yakınlaştırma + URL kopyalama ---------- */
+const zoom=document.getElementById('zoom');
+function itemUrl(item){
+  return `${location.origin}${location.pathname}#/${item.kind}/${item.id}`;
+}
+function openZoom(item, updateHash){
+  currentItem=item;
+  document.getElementById('zoomImg').src=urlFor(item);
+  document.getElementById('zoomName').textContent=item.name;
+  zoom.classList.add('open');
+  if(updateHash) history.replaceState(null,'',`#/${item.kind}/${item.id}`);
+}
+function closeZoom(){
+  zoom.classList.remove('open');
+  if(currentItem) history.replaceState(null,'',`#/${currentItem.kind}`);
+  currentItem=null;
+}
+document.getElementById('closeBtn').onclick=closeZoom;
+zoom.addEventListener('click',e=>{ if(e.target===zoom) closeZoom(); });
+document.getElementById('copyBtn').onclick=async()=>{
+  if(!currentItem) return;
+  const url=itemUrl(currentItem);
+  try{ await navigator.clipboard.writeText(url); }
+  catch{
+    const ta=document.createElement('textarea'); ta.value=url; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy'); ta.remove();
+  }
+  showToast('URL kopyalandı 🔗');
+};
+
+/* ---------- Dosya ekleme ---------- */
+async function saveItem(name, blob, kind){
+  const item={
+    id: Math.random().toString(36).slice(2,9) + Date.now().toString(36),
+    name, blob, kind, created: Date.now()
+  };
+  await dbPut(item);
+  items.push(item);
+  render();
+  return item;
+}
+function cleanName(file, index, total){
+  const typed=nameInput.value.trim();
+  if(typed) return total>1 ? `${typed} ${index+1}` : typed;
+  return file.name.replace(/\.[^.]+$/,'') || 'ismo';
+}
+
+async function handleFiles(fileList){
+  const files=[...fileList];
+  if(!files.length) return;
+  clearError();
+  for(let i=0;i<files.length;i++){
+    const file=files[i], name=cleanName(file,i,files.length);
+    try{
+      if(file.type==='image/gif'){ await saveItem(name,file,'gif'); showToast('GIF eklendi ✅'); }
+      else if(file.type.startsWith('image/')){ await saveItem(name,file,'photo'); showToast('Fotoğraf eklendi ✅'); }
+      else if(file.type.startsWith('video/')){ await videoToGif(file,name); }
+      else showError(`${file.name}: Desteklenmeyen dosya`);
+    }catch(err){
+      console.error(err);
+      showError(`${file.name}: Bir hata oldu`);
+    }
+  }
+}
+
+/* ---------- Video -> GIF ---------- */
+function videoToGif(file,name){
+  return new Promise(async(resolve)=>{
+    const url=URL.createObjectURL(file);
+    const video=document.createElement('video');
+    video.muted=true; video.src=url; video.crossOrigin='anonymous';
+    video.onloadedmetadata=async()=>{
+      if(!isFinite(video.duration) || video.duration>MAX_VIDEO_SECONDS){
+        URL.revokeObjectURL(url); setStatus('');
+        showError('Gif olamayacak kadar uzun');
+        return resolve();
+      }
+      try{
+        setStatus(`GIF yapılıyor: ${name}...`);
+        const scale=Math.min(1, 480/(video.videoWidth||480));
+        const width=Math.max(2, Math.round((video.videoWidth||480)*scale));
+        const height=Math.max(2, Math.round((video.videoHeight||320)*scale));
+        const canvas=document.createElement('canvas'); canvas.width=width; canvas.height=height;
+        const ctx=canvas.getContext('2d');
+        const gif=new GIF({workers:2, quality:10, width, height, workerScript:'gif.worker.js'});
+        const fps=10, totalFrames=Math.max(1, Math.floor(video.duration*fps));
+        for(let f=0;f<totalFrames;f++){
+          await new Promise(res=>{
+            video.currentTime=f/fps;
+            video.onseeked=()=>{ ctx.drawImage(video,0,0,width,height); gif.addFrame(ctx,{copy:true,delay:100}); res(); };
+          });
+          setStatus(`GIF yapılıyor: ${name}... %${Math.round(((f+1)/totalFrames)*100)}`);
+        }
+        gif.on('finished', async blob=>{
+          URL.revokeObjectURL(url); setStatus('');
+          await saveItem(name,blob,'gif');
+          showToast('Video GIF oldu ✅'); resolve();
+        });
+        gif.render();
+      }catch(err){
+        console.error(err); URL.revokeObjectURL(url); setStatus('');
+        showError(`${file.name}: GIF yapılamadı`); resolve();
+      }
+    };
+    video.onerror=()=>{ URL.revokeObjectURL(url); showError(`${file.name}: Video açılamadı`); resolve(); };
+  });
+}
+
+/* ---------- Tıkla / Sürükle / Ctrl+V ---------- */
+dropZone.addEventListener('click',()=>fileInput.click());
+document.getElementById('addBtn').addEventListener('click',e=>{e.stopPropagation();fileInput.click();});
+fileInput.addEventListener('change',()=>{handleFiles(fileInput.files);fileInput.value='';});
+['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();dropZone.classList.add('over');}));
+['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();dropZone.classList.remove('over');}));
+document.addEventListener('drop',e=>handleFiles(e.dataTransfer.files));
+document.addEventListener('paste',e=>{
+  const files=e.clipboardData && e.clipboardData.files;
+  if(files && files.length) handleFiles(files);
 });
 
-const videoGrid = document.getElementById('videoGrid');
-VIDEOLAR.forEach(src => {
-  const d = document.createElement('div'); d.className = 'item';
-  d.innerHTML = `<video src="${src}" controls preload="metadata"></video>`;
-  videoGrid.appendChild(d);
-});
-document.getElementById('videoEmpty').style.display = VIDEOLAR.length ? 'none' : 'block';
+/* ---------- Başlangıç ---------- */
+(async()=>{
+  items=await dbGetAll();
+  render(); parseRoute();
+})();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4c0375e6e303631',t:'MTc5MjI0OTY4MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4c088e89e0de33e',t:'MTc5MjI1MzAyMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
