@@ -42,6 +42,21 @@ h1{font-size:clamp(32px,6vw,58px);letter-spacing:-1.5px;margin-bottom:10px}
 .copy{background:#ff4d8d;color:#fff;border:0;padding:13px 24px;border-radius:999px;font-weight:950;cursor:pointer}
 .close{background:#fff;color:#111;border:0;padding:13px 24px;border-radius:999px;font-weight:950;cursor:pointer}
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(120px);background:#fff;color:#111;padding:13px 22px;border-radius:999px;font-weight:900;z-index:200;transition:.3s;max-width:90vw;text-align:center}
+.admin-btn{position:fixed;left:20px;bottom:20px;z-index:90;width:60px;height:60px;border-radius:50%;border:2px solid #343442;background:#17171f;font-size:30px;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+.admin-btn:hover{border-color:#ff4d8d;transform:scale(1.06)}
+.modal{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-box{background:#17171f;border:1px solid #343442;border-radius:24px;padding:28px;width:100%;max-width:420px}
+.modal-box.wide{max-width:760px;max-height:86vh;overflow:auto}
+.modal-box h2{font-size:26px;margin-bottom:18px}
+.modal-box input{width:100%;background:#101016;border:1px solid #343442;border-radius:14px;color:#fff;padding:14px 16px;outline:none;margin-bottom:12px}
+.modal-box input:focus{border-color:#ff4d8d}
+.login-error{display:none;color:#fca5a5;background:#3a1116;border:1px solid #ef4444;padding:11px 14px;border-radius:12px;margin-bottom:12px}
+.admin-row{display:flex;align-items:center;gap:14px;background:#101016;border:1px solid #2a2a35;border-radius:16px;padding:10px;margin-bottom:10px}
+.admin-row img{width:74px;height:56px;object-fit:cover;border-radius:10px;background:#000;flex-shrink:0}
+.admin-info{flex:1;min-width:0}.admin-info b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.admin-info span{color:#a1a1aa;font-size:13px}
+.remove-btn{background:#ef4444;color:#fff;border:0;padding:10px 16px;border-radius:999px;font-weight:900;cursor:pointer;flex-shrink:0}
+.removed-icon{font-size:64px;text-align:center}.removed-box{text-align:center}.removed-box p{color:#a1a1aa;margin-bottom:20px}
 .toast.show{transform:translateX(-50%) translateY(0)}
 @media(max-width:640px){.top{justify-content:center}.name-row{flex-direction:column}}
 </style>
@@ -106,6 +121,42 @@ h1{font-size:clamp(32px,6vw,58px);letter-spacing:-1.5px;margin-bottom:10px}
   </div>
 </div>
 
+<button class="admin-btn" id="adminBtn" title="Admin Panel">😎</button>
+
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <h2>😎 Admin Giriş</h2>
+    <div class="login-error" id="loginError">İsim veya şifre yanlış</div>
+    <input id="adminName" type="text" placeholder="İsim" autocomplete="username">
+    <input id="adminPass" type="password" placeholder="Şifre" autocomplete="current-password">
+    <div class="zoom-btns">
+      <button class="copy" id="loginBtn">Giriş Yap</button>
+      <button class="close" id="loginCancel">Vazgeç</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="adminPanel">
+  <div class="modal-box wide">
+    <h2>😎 Admin Panel</h2>
+    <div id="adminList"></div>
+    <div class="empty" id="adminEmpty">Kaldırılacak içerik yok.</div>
+    <div class="zoom-btns" style="margin-top:18px">
+      <button class="close" id="adminClose">Kapat</button>
+      <button class="close" id="adminLogout">Çıkış Yap</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="removedModal">
+  <div class="modal-box removed-box">
+    <div class="removed-icon">🚫</div>
+    <h2>Kaldırıldı</h2>
+    <p>Bu içerik kaldırıldı.</p>
+    <button class="copy" id="removedHome">Ana Page</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="gif.js"></script>
@@ -161,6 +212,14 @@ async function dbGetAll(){
     req.onerror = ()=> reject(req.error);
   });
 }
+async function dbDelete(id){
+  const db = await openDB();
+  return new Promise((resolve,reject)=>{
+    const tx = db.transaction('files','readwrite');
+    tx.objectStore('files').delete(id);
+    tx.oncomplete = resolve; tx.onerror = ()=>reject(tx.error);
+  });
+}
 
 /* ---------- Sayfa geçişleri / URL ---------- */
 function goPage(page){ location.hash = '#/' + (page === 'home' ? '' : page); }
@@ -176,7 +235,8 @@ function parseRoute(){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.go===page));
   if((parts[0]==='gif'||parts[0]==='photo') && parts[1]){
     const item = items.find(i=>i.id===parts[1]);
-    if(item) openZoom(item, false);
+    if(item){ document.getElementById('removedModal').classList.remove('open'); openZoom(item, false); }
+    else { zoom.classList.remove('open'); document.getElementById('removedModal').classList.add('open'); }
   }
 }
 window.addEventListener('hashchange', parseRoute);
@@ -320,11 +380,81 @@ document.addEventListener('paste',e=>{
   if(files && files.length) handleFiles(files);
 });
 
+/* ---------- Admin Panel ---------- */
+const ADMIN_NAME = 'admin-giris';
+const ADMIN_PASS = 'flörtleşen ismail';
+let isAdmin = sessionStorage.getItem('ismo-admin') === '1';
+const loginModal = document.getElementById('loginModal');
+const adminPanel = document.getElementById('adminPanel');
+
+document.getElementById('adminBtn').onclick = ()=>{
+  if(isAdmin){ renderAdmin(); adminPanel.classList.add('open'); }
+  else loginModal.classList.add('open');
+};
+document.getElementById('loginCancel').onclick = ()=> loginModal.classList.remove('open');
+document.getElementById('adminClose').onclick = ()=> adminPanel.classList.remove('open');
+document.getElementById('adminLogout').onclick = ()=>{
+  isAdmin = false;
+  sessionStorage.removeItem('ismo-admin');
+  adminPanel.classList.remove('open');
+  showToast('Çıkış yapıldı');
+};
+function tryLogin(){
+  const name = document.getElementById('adminName').value.trim();
+  const pass = document.getElementById('adminPass').value;
+  if(name === ADMIN_NAME && pass === ADMIN_PASS){
+    isAdmin = true;
+    sessionStorage.setItem('ismo-admin','1');
+    document.getElementById('loginError').style.display = 'none';
+    document.getElementById('adminPass').value = '';
+    loginModal.classList.remove('open');
+    renderAdmin();
+    adminPanel.classList.add('open');
+    showToast('Admin girişi yapıldı 😎');
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+document.getElementById('loginBtn').onclick = tryLogin;
+document.getElementById('adminPass').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+document.getElementById('removedHome').onclick = ()=>{
+  document.getElementById('removedModal').classList.remove('open');
+  goPage('home');
+};
+[loginModal, adminPanel].forEach(m=>m.addEventListener('click', e=>{ if(e.target===m) m.classList.remove('open'); }));
+
+function renderAdmin(){
+  const list = document.getElementById('adminList');
+  list.innerHTML = '';
+  [...items].sort((a,b)=>b.created-a.created).forEach(item=>{
+    const row = document.createElement('div'); row.className = 'admin-row';
+    row.innerHTML = `<img src="${urlFor(item)}" alt=""><div class="admin-info"><b></b><span>${item.kind === 'gif' ? 'ismo gif:' : 'ismo photo:'}</span></div>`;
+    row.querySelector('b').textContent = item.name;
+    const btn = document.createElement('button'); btn.className = 'remove-btn'; btn.textContent = 'Kaldır';
+    btn.onclick = ()=> removeItem(item);
+    row.appendChild(btn);
+    list.appendChild(row);
+  });
+  document.getElementById('adminEmpty').style.display = items.length ? 'none' : 'block';
+}
+async function removeItem(item){
+  if(!confirm(`"${item.name}" kaldırılsın mı?`)) return;
+  await dbDelete(item.id);
+  const removed = JSON.parse(localStorage.getItem('ismo-removed') || '[]');
+  if(!removed.includes(item.id)){ removed.push(item.id); localStorage.setItem('ismo-removed', JSON.stringify(removed)); }
+  items = items.filter(i=>i.id !== item.id);
+  if(objectUrls.has(item.id)){ URL.revokeObjectURL(objectUrls.get(item.id)); objectUrls.delete(item.id); }
+  if(currentItem && currentItem.id === item.id){ zoom.classList.remove('open'); currentItem = null; }
+  render(); renderAdmin();
+  if(location.hash.includes(item.id)) document.getElementById('removedModal').classList.add('open');
+  showToast('Kaldırıldı 🚫');
+}
+
 /* ---------- Başlangıç ---------- */
 (async()=>{
   items=await dbGetAll();
   render(); parseRoute();
 })();
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4c088e89e0de33e',t:'MTc5MjI1MzAyMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
